@@ -5,7 +5,7 @@
 /**
 Card class will represent a card in a standard deck. It will have a suit and a rank as its fields. It will implement
 the comparable interface and will have an overriding toString method. It will have only one constructor
-that takes in an integer for the rank and an integer for the suit, although suits and face-rank integers will be 
+that takes in an integer for the rank and an integer for the suit. Suits and face-rank integers will be 
 represented by static constants defined in the card class.
 */
 
@@ -41,7 +41,7 @@ public class Card implements Comparable
       this.suit = suit;
    }
    
-   //Define equals method
+   //Define toString method
    
    /**
    toString represents a Card object as a String composed of its rank and its suit
@@ -50,12 +50,16 @@ public class Card implements Comparable
    */
    public String toString()
    {
+      //Declare local variables
       String rankString, suitString, cardAsString;
+      
+      //If the rank is not a face card, represent it with the integer stored in the rank field of the calling Card
       if(this.rank < 11 && this.rank > 1)
       {
          Integer rankInt = new Integer(this.rank);
          rankString = rankInt.toString();
       }
+      //else represent the rank with the name of the face card
       else
       {
          switch(this.rank)
@@ -77,6 +81,8 @@ public class Card implements Comparable
                break;
          }
       }
+      
+      //Represent the suit by its first letter
       switch(this.suit)
       {
          case 1:
@@ -95,11 +101,13 @@ public class Card implements Comparable
             suitString = "";
             break;
       }
+      
+      //Create a string combined of the rank and the first letter of the suit of the calling card.
       cardAsString = rankString + suitString;
       return cardAsString; 
    }
    
-   //Define compareTo method
+   //Define implement Comparable
    
    /**
    compareTo method takes in another card object and determines if the calling object's rank is greater than, less than,
@@ -111,14 +119,19 @@ public class Card implements Comparable
    */
    public int compareTo(Object cardToCheck)
    {
+      //Declare the relation variable, which will hold the difference in the ranks of the two cards.
       int relation;
+      
+      //Cast the passed in Card object back to a Card
       Card toCheckAsCard = (Card)cardToCheck;
-      if(this.rank < toCheckAsCard.rank)
+      
+      if(this.rank < toCheckAsCard.rank) 
          relation = this.rank - toCheckAsCard.rank;
       else if(this.rank > toCheckAsCard.rank)
          relation = this.rank - toCheckAsCard.rank;
       else 
          relation = 0;
+      
       return relation;
    }
 } 

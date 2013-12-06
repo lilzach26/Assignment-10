@@ -7,21 +7,22 @@ import java.util.Random;
 
 /**
 CardCollection is a super class for things that contain some amount of Card objects in flux (i.e., Deck and Hand). The 
-class contains an array of cards stored in a field named deck and an int field storing the number of Card objects present
-in the array. It does not have any specific methods, but has a constructor that creates an empty 52 card array for the 
-deck field and initializes the int value to 52.
+class contains an ArrayList of cards stored in a field named deck and an int field (size) sstoring the number of Card objects present
+in the array. The class has two possible constructors and a series of methods appropriate for collections of cards.
 */
 public class CardCollection
 {
    //Define fields
    private ArrayList<Card> deck; 
    private int size;
+   
+   //Declare constants
    public static final int STANDARD_SIZE = 52;
    
    //Define constructors
    
    /**
-   Constructor initializes the deck field to an empty array of 52 Card objects and the size field to 52. 
+   Default constructor initializes the deck field to an empty array of 52 Card objects and the size field to 52. 
    */
    public CardCollection()
    {
@@ -30,29 +31,21 @@ public class CardCollection
    }
    
    /**
-   Alternate constructor initializes the deck field to an empty array of Cards of length given by the argument and sets
-   the size field to size. 
-   @param size Number of Cards that can fit in the deck field of the CardCollection. 
+   Alternate constructor initializes the deck field to an empty array of Cards of length equal to 52
+   and sets the size field to the size argument. 
+   @param size number of Cards that will be added to the deck field of the CardCollection object. 
    */
-   public CardCollection(int size) throws IndexOutOfBoundsException
+   public CardCollection(int size)
    {
-      if(size >= 1 && size <= STANDARD_SIZE)
-      {
-         this.deck = new ArrayList<Card>(STANDARD_SIZE);
-         this.size = size;
-      }
-      else if(size > STANDARD_SIZE)
-      {
-         this.deck = new ArrayList<Card>(size);
-         this.size = size;
-      }
-      else 
-         throw new IndexOutOfBoundsException("Not an appropriate size for a collection of cards");
+      this.deck = new ArrayList<Card>(STANDARD_SIZE);
+      this.size = size;
    }
+   
+   //Define getter and setter methods
    
    /**
    getSize method returns the integer value stored in the size field of the calling Deck object
-   @returns integer stored in the size field of the calling Deck object
+   @return integer stored in the size field of the calling Deck object
    */
    public int getSize()
    {
@@ -61,7 +54,7 @@ public class CardCollection
    
    /**
    getDeck method returns the Card ArrayList stored in the deck field for the calling Deck object
-   @returns Card ArrayList stored in the deck field of the calling object
+   @return Card ArrayList stored in the deck field of the calling object
    */
    public ArrayList<Card> getDeck()
    {
@@ -69,26 +62,23 @@ public class CardCollection
    }
    
    /**
-   setDeck method takes in an array of Cards and copies the elements one-to-one into the deck field of the calling Deck
+   setDeck method takes in an array of Cards and copies the elements one-to-one into the deck field of the calling
    object. 
-   @param cardArray the array of Cards to be copied into the deck field of the calling object
-   @throws IndexOutOfBoundsException if the Card array trying to be copied is a different size than the deck field 
+   @param cardArray the array of Cards to be copied into the deck field of the calling object.
    */
    public void setDeck(ArrayList<Card> cardArray)
    {
-      if(this.size == cardArray.size())
+      //Fill the deck field of the CardCollection object by copying Cards from the card array 
+      for(int i=0; i<this.size; i++)
       {
-         for(int i=0; i<this.size; i++)
-         {
-            Card newCard = cardArray.get(i);
-            if(this.deck.size() < this.size)
-               this.deck.add(i, newCard);
-            else
-               this.deck.set(i, newCard);
-         }
+         Card newCard = cardArray.get(i);
+         
+         //If the deck has not been filled before add the new card, or else replace the current card there
+         if(this.deck.size() < this.size) 
+            this.deck.add(i, newCard);
+         else
+            this.deck.set(i, newCard);
       }
-      else
-         throw new IndexOutOfBoundsException("Array sizes do not match");
    }
    
    /**
@@ -100,20 +90,28 @@ public class CardCollection
       this.size = newSize;
    }
    
+   //Define other methods
+   
    /**
    shuffle loops through the deck field and changes each card's place with another, randomly chosen card's place. The 
-   final effect is that each card is located randomly throughout the array; there is no order to the array.
+   final effect is that each card is located randomly throughout the array.
    */
    public void shuffle()
    {
+      //Create a new random number generator for determining a card's new location
       Random newIndexGenerator = new Random();
+      
+      //Loop through the deck field ArrayList and change every card's place randomly.
       for(int i = 0; i < this.size-1; i++)
       {  
+         //Randomly generate a new index
          int exchangeIndex;
          do
          {
             exchangeIndex = newIndexGenerator.nextInt(this.size);
-         }while(exchangeIndex == i);
+         }while(exchangeIndex == i); //Ensure a card cannot keep its same location
+         
+         //Switch the card with the card at the random index
          Card temp = deck.get(i);
          deck.set(i, deck.get(exchangeIndex));
          deck.set(exchangeIndex, temp);   
@@ -121,8 +119,8 @@ public class CardCollection
    }
    
    /**
-   add method adds an array of Card objects to the end of the ArrayList in the deck field of the calling object. The 
-   array itself is not added, but the cards are added to respective cells in the ArrayList. 
+   add method adds an ArrayList of Card objects to the end of the ArrayList in the deck field of the calling object. The 
+   ArrayList itself is not added, but the cards are added to respective cells in the deck field. 
    @param cardArray an Array of Card objects of any size that is to be added to the deck field
    */
    public void add(ArrayList<Card> cardArray)
@@ -130,7 +128,7 @@ public class CardCollection
       for(int i=0; i<cardArray.size(); i++)
       {  
          this.deck.add(this.size, cardArray.get(i));
-         size++;
+         this.size++;
       }
    }
    
@@ -141,6 +139,6 @@ public class CardCollection
    public void add(Card card)
    {
       this.deck.add(this.size, card);
-      size++;
+      this.size++;
    }
 }

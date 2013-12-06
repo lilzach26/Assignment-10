@@ -1,7 +1,0 @@
-Notes:
-
--Go back over and do much more detailed comments. Make it clear that you chose ArrayList implementation instead of queue
-so that you could shuffle easier 
-
--The reason that you cannot create a full deck was that your Deck constructor creates a deck, but its variables are 
-private...you need to set the deck field 

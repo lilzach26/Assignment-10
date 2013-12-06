@@ -3,9 +3,9 @@
 //Hand class
 
 /**
-Hand class extends Deck class and differs in that its constructor creates an EMPTY array of 52 cards rather than creating
-a functional Deck. This provides a space for Card objects to be added and removed as a game progresses. It is rather like
-an airlock for Card objects
+Hand class extends CardCollection but includes no new methods. The only differents is that it has a constructor that 
+sets the deck field to have a 52 card capacity but sets its size equal to zero to represent the fact that the CardCollection
+is initially empty. 
 */
 
 public class Hand extends CardCollection
